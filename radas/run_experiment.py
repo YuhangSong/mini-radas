@@ -129,34 +129,35 @@ async def run_experiment(
         else:
             cluster = None
 
-        # get choice
-        choices = [
-            {
-                "key": "run",
-                "msg": "Run a new experiment (if there is a running experiment, it will be stopped; if there is a existing experiment in the storage, it will be removed)",
-            },
-        ]
-        if is_existing:
-            choices.append(
-                {
-                    "key": "restore",
-                    "msg": f"Restore an existing experiment from the storage (if there is a running experiment, it will be stopped)",
-                }
-            )
-        if run_with.startswith("cluster:"):
-            choices.append(
-                {
-                    "key": "attach",
-                    "msg": f"Attach to a running experiment",
-                }
-            )
-            choices.append(
-                {
-                    "key": "stop_attach",
-                    "msg": f"Stop and attach to a running experiment",
-                }
-            )
-        choice = inquire_choices(choices=choices)
+        # # get choice
+        # choices = [
+        #     {
+        #         "key": "run",
+        #         "msg": "Run a new experiment (if there is a running experiment, it will be stopped; if there is a existing experiment in the storage, it will be removed)",
+        #     },
+        # ]
+        # if is_existing:
+        #     choices.append(
+        #         {
+        #             "key": "restore",
+        #             "msg": f"Restore an existing experiment from the storage (if there is a running experiment, it will be stopped)",
+        #         }
+        #     )
+        # if run_with.startswith("cluster:"):
+        #     choices.append(
+        #         {
+        #             "key": "attach",
+        #             "msg": f"Attach to a running experiment",
+        #         }
+        #     )
+        #     choices.append(
+        #         {
+        #             "key": "stop_attach",
+        #             "msg": f"Stop and attach to a running experiment",
+        #         }
+        #     )
+        # choice = inquire_choices(choices=choices)
+        choice = "run"
 
         # choice -> arguments
         if choice == "run":
@@ -165,21 +166,22 @@ async def run_experiment(
             is_stop = False
             is_attach = False
 
-            answer = inquire_choices(
-                msg=(
-                    "Ready to run new experiment. Kind reminder to think about if you have other cleanups you want to do that are not managed by radas (e.g., wandb or swanlab)."
-                ),
-                choices=[
-                    {
-                        "key": "proceed",
-                        "msg": f"Proceed",
-                    },
-                    {
-                        "key": "exit",
-                        "msg": f"Exit",
-                    },
-                ],
-            )
+            # answer = inquire_choices(
+            #     msg=(
+            #         "Ready to run new experiment. Kind reminder to think about if you have other cleanups you want to do that are not managed by radas (e.g., wandb or swanlab)."
+            #     ),
+            #     choices=[
+            #         {
+            #             "key": "proceed",
+            #             "msg": f"Proceed",
+            #         },
+            #         {
+            #             "key": "exit",
+            #             "msg": f"Exit",
+            #         },
+            #     ],
+            # )
+            answer = "proceed"
             if answer == "exit":
                 raise Exception("User exited.")
 
