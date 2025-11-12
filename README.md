@@ -14,3 +14,9 @@ Then, install the package:
 ```bash
 pip install -e .
 ```
+
+Get updates with:
+
+```bash
+git pull
+```
