@@ -76,6 +76,7 @@ async def run_experiment(
     experiment_name,
     ssh_key_path=None,
     gram_per_trial="0MiB",
+    runtime_env=None,
     resources={
         "cpu": 1,
         "gpu": 0,
@@ -102,55 +103,6 @@ async def run_experiment(
     #
     dos=["run", "analyze"],
 ):
-    r"""A high-level API for running experiment, with an aim of hidding as much complexity as possible.
-
-    Key features:
-        - Run locally or on a cluster.
-        - Handle analysis of the results in a structured & clean way.
-
-    See `.examples/basics.ipynb` as an example of the basic usage.
-    See `.examples/use_cluster.ipynb` as an example of using a cluster.
-
-    Args:
-        trainable: See https://docs.ray.io/en/latest/tune/api/trainable.html.
-        experiment_name: Used to identify the experiment.
-        resources: See `resources` in https://docs.ray.io/en/latest/tune/api/doc/ray.tune.with_resources.html.
-        run_with: options:
-            "local": run locally.
-            "cluster:<cluster_id>": on a cluster, for example, "cluster:gcp-cpu".
-        user_name: Used to identify the experiment.
-        local_storage_path: Where results are stored locally,
-        ssh_key_path: The ssh key to authenticate with the head node of the cluster.
-
-        num_seeds: This will set a field `seed` in param_space passed into the trainable to tune.grid_search([...]).
-            Setting to None (default value) will disable this.
-        param_space: See https://docs.ray.io/en/latest/tune/tutorials/tune-search-spaces.html.
-
-        tuner_to_df_fn: After running the tuner with the trainable and param_space, function that takes in a tuner and return a df.
-        process_df_fn: After the above, function to process the df.
-        process_df_fn_kwargs: The kwargs passed into `process_df_fn`.
-        process_sns_fn: After the above, function process sns (only takes effect when plot_fn is not None).
-        plot_fn: After the above, function to plot the df
-            If None, will not plot df
-        plot_kwargs: The kwargs passed into plot_fn.
-        rename_mapping: A map to rename plotting axes.
-            This only takes effect in plotting, i.e., this will not affect the df returned.
-            Example: {"x": "a", "y": "b"} will rename "x" to "a" and "y" to "b".
-        matplotlib_rcParams_update: A dict to update matplotlib.rcParams.
-            Example: {
-                "text.usetex": True,
-                "font.family": "serif",
-                # Optional: specify the LaTeX package to use for fonts
-                # "text.latex.preamble": r"\usepackage{amsmath}"
-            }
-        process_g_fn: Assume the above plot returns g, function that will be called to process g (only takes effect when plot_fn is not None).
-        plot_format:
-            If not None, will set display/save format of plot to `plot_format`.
-
-        dos: what to do, e.g., ["run", "analyze"] (default) means to run the experiment and then analyze the results.
-            e.g., ["run"] means to only run the experiment
-            e.g., ["analyze"] means to only analyze the results
-    """
 
     assert_list(dos)
     for do in dos:
